@@ -1,0 +1,11 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1rem;
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #477148;
+}

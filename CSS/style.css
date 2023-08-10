@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  /* height: 100vh; */
+  gap: 2rem;
 }
 
 header {
@@ -25,13 +25,72 @@ header {
 }
 
 header > h1 {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
+  font-family: 'Tilt Prism', cursive;
+}
+
+#rules {
+  margin-bottom: 5rem;
+}
+
+h2 {
+  font-family: 'Figtree', sans-serif;
 }
 
 #rules > h2 {
   font-size: 3rem;
+  margin: 0 .5rem;
 }
 
-#rules > h2 {
+#rules > p {
+  margin: 0 1rem;
+  font-size: 2rem;
+}
+
+#playersTerminal {
+  border: .3rem solid #000;
+  max-width: 75vw;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+#playersTerminal, .players {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.players {
+  gap: 1rem;
+}
+
+.players > h2 {
+  font-size: 2.8rem;
   margin: 0;
 }
+
+#player2 {
+  margin-top: 2rem;
+}
+
+button {
+  width: 15rem;
+  height: 5rem;
+  border-radius: .5rem;
+}
+
+/* footer {
+  margin-top: 2rem;
+}
+
+footer > h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-align: center;
+}
+
+footer > p {
+  font-size: 2rem;
+  margin: 0;
+} */

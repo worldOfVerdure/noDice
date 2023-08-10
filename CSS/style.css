@@ -9,3 +9,29 @@ body {
   max-height: 100%;
   background-color: #477148;
 }
+
+#entirePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* height: 100vh; */
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header > h1 {
+  font-size: 2.5rem;
+}
+
+#rules > h2 {
+  font-size: 3rem;
+}
+
+#rules > h2 {
+  margin: 0;
+}

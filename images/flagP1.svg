@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en-US" lang="en-US" viewBox="0 0 50 50"
+  width="50" height="50">
+  <title>FlagP1</title>
+
+  <rect width="3" height="30" x="6" y="10" stroke="#000" stroke-width="1" fill="#E0E0E0"/>
+  <circle cx="7.5" cy="7.6" r="2.5" stroke="#000" stroke-width="1" fill="#E0E0E0"/>
+
+  <g stroke="#000" stroke-width=".75" fill="#d1171b">
+    <polyline points="9.5,10 34,20 9.5,25"/>
+  </g> 
+</svg>

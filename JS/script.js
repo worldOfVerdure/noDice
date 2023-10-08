@@ -1,11 +1,14 @@
 const maxDieValue = 6;
 
+const btnP1 = document.querySelector("#player1 > button");
+const btnP2 = document.querySelector("#player2 > button");
+const dieImgP1 = document.querySelector("#player1 > img");
+const dieImgP2 = document.querySelector("#player2 > img");
+
 function dieRoll(player) {
   let randNum = Math.floor(Math.random() * maxDieValue + 1);
 
   if (player === 1) {
-    let dieImgP1 = document.querySelector("#player1 > img");
-
     switch (randNum) {
       case 1:
         dieImgP1.src = "images/oneDieP1.svg";
@@ -38,8 +41,6 @@ function dieRoll(player) {
   }
 
   if (player === 2) {
-    let dieImgP2 = document.querySelector("#player2 > img");
-
     switch (randNum) {
       case 1:
         dieImgP2.src = "images/oneDieP2.svg";
@@ -71,3 +72,11 @@ function dieRoll(player) {
     }
   }
 }
+
+btnP1.addEventListener("click", function() {
+  dieRoll(1);
+});
+
+btnP2.addEventListener("click", function() {
+  dieRoll(2);
+});

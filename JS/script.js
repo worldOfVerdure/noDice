@@ -1,4 +1,6 @@
-const maxDieValue = 6;
+// TODO: look up disabled for buttons. Disable a button right after use, reset after a round is completed.
+
+const MaxDieValue = 6;
 
 const btnP1 = document.querySelector("#player1 > button");
 const btnP2 = document.querySelector("#player2 > button");
@@ -6,7 +8,7 @@ const dieImgP1 = document.querySelector("#player1 > img");
 const dieImgP2 = document.querySelector("#player2 > img");
 
 function dieRoll(player) {
-  let randNum = Math.floor(Math.random() * maxDieValue + 1);
+  let randNum = Math.floor(Math.random() * MaxDieValue + 1);
 
   if (player === 1) {
     switch (randNum) {
@@ -40,7 +42,7 @@ function dieRoll(player) {
     }
   }
 
-  if (player === 2) {
+  else if (player === 2) {
     switch (randNum) {
       case 1:
         dieImgP2.src = "images/oneDieP2.svg";
@@ -70,6 +72,9 @@ function dieRoll(player) {
         dieImgP2.src = "images/emptyDie.svg";
         dieImgP2.alt = "A blank die for player 2"; 
     }
+  }
+  else {
+    alert("Game has broken. Please fix the ride.");
   }
 }
 

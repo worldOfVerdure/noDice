@@ -1,5 +1,3 @@
-// TODO: look up disabled for buttons. Disable a button right after use, reset after a round is completed.
-
 const MaxDieValue = 6;
 
 const btnP1 = document.querySelector("#player1 > button");

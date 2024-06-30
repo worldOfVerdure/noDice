@@ -1,12 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 62.5%;
 }
 
 body {
-  font-size: 1rem;
+  font-size: 1.6rem;
   margin: 0;
-  max-width: 100%;
-  max-height: 100%;
   background-color: #477148;
 }
 
@@ -24,25 +26,22 @@ header {
   align-items: center;
 }
 
-header > img {
+header > img, header > h1 {
   margin-left: 5%;
 }
 
 header > h1 {
-  font-size: 3.5rem;
+  font-size: calc(2.38rem + 3vw);
   font-family: 'Tilt Prism', cursive;
-}
-
-#rules {
-  margin-bottom: 5rem;
 }
 
 h2 {
   font-family: 'Figtree', sans-serif;
+  margin: 0;
 }
 
-#rules {
-  font-size: 2.5rem;
+p#message {
+  font-size: calc(1.38rem + 2vw);
   font-family: 'Figtree', sans-serif;
   margin: .5rem 0;
 }
@@ -65,13 +64,25 @@ h2 {
   gap: 1rem;
 }
 
+div.playerInfo {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: .5rem;
+}
+
+p.numOfWinsDisplay {
+  font-size: calc(1.75rem + 2vw);
+  margin: 0;
+}
+
 .players > h2 {
-  font-size: 3rem;
+  font-size: calc(1.88rem + 2vw);
   margin: 0;
 }
 
 .players > h3 {
-  font-size: 2.8rem;
+  font-size: calc(1.68rem + 2vw);
   margin: 0;
 }
 
@@ -88,9 +99,9 @@ h2 {
 }
 
 button {
-  font-size: 2rem;
+  font-size: calc(.88rem + 3vw);;
   font-weight: 600;
-  width: 15rem;
+  width: 7rem;
   height: 5rem;
   border-radius: .5rem;
   cursor: pointer;

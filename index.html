@@ -20,30 +20,37 @@
     <div id="entirePage">
       <header>
         <img src="images/snakeEyes.svg" alt="A picture of dice forming snake eyes."/>
-        <h1>Welcome to No Dice</h1>
+        <h1>No Dice</h1>
       </header>
 
       <main>
-        <p id="rules">First player to 5 wins!</p>
+        <p id="message">Closest to 21 wins!</p>
 
         <div id="playersTerminal">
-          <div id="player1" class="players">
-            <h2>Player 1</h2>
-            <h3>Score: 0</h3>
+          <div id="player1" className="players">
+            <div className="playerInfo">
+              <h2>Player 1</h2>
+              <img className="playerFlag" src="./images/flagP1.svg" alt="Player 1 flag"/>
+              <p className="numOfWinsDisplay">x <span id="player1Wins">0</span></p>
+            </div>
+            <h3>Count: 0</h3>
             <img src="images/emptyDie.svg" alt="A blank die for player 1."/>
             <button>Roll</button>
           </div>
 
-          <div id="player2" class="players">
-            <h2>Player 2</h2>
-            <h3>Score: 0</h3>
+          <div id="player2" className="players">
+            <div className="playerInfo">
+              <h2>Player 2</h2>
+              <img className="playerFlag" src="./images/flagP2.svg" alt="Player 2 flag"/>
+              <p className="numOfWinsDisplay">x <span id="player2Wins">0</span></p>
+            </div>
+            <h3>Count: 0</h3>
             <img src="images/emptyDie.svg" alt="A blank die for player 2."/>
             <button>Roll</button>
           </div>
         </div>
       </main>
     </div>
-
     <script src="JS/script.js"></script>
   </body>
 </html>

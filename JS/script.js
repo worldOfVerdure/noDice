@@ -1,15 +1,120 @@
-const MaxDieValue = 6;
+const MAX_DIE_VALUE = 6;
+const MAX_SCORE = 21;
 
-const btnP1 = document.querySelector("#player1 > button");
-const btnP2 = document.querySelector("#player2 > button");
+class Player {
+  constructor(id, turnStatus) {
+    this.id = id;
+    this.holdStatus = false;
+    this.turnStatus = turnStatus;
+    this.score = 0;
+    this.wins = 0;
+  }
+
+  get getID() {
+    return this.id;
+  }
+
+  set setID(id) {
+    this.id = id;
+  }
+
+  get getHoldStatus() {
+    return this.holdStatus;
+  }
+
+  set setHoldStatus(status) {
+    this.holdStatus = !status;
+  }
+
+  get getTurnStatus() {
+    return this.turnStatus;
+  }
+
+  set setTurnStatus(status) {
+    this.turnStatus = !status;
+  }
+
+  get getScore() {
+    return this.score;
+  }
+  
+  set setScore(roll) {
+    this.score += roll;
+  }
+
+  get getWins() {
+    return this.wins;
+  }
+
+  set setWins(winStatus) {
+    if(winStatus)
+      this.wins += 1;
+    else
+      this.wins += 0;
+  }
+}
+
+const player1 = new Player(1, true);
+const player2 = new Player(2, false);
+
+function resolvePlayerRoll(player, randNum) {
+  player.setScore(randNum);
+
+  if (player.getScore > MAX_SCORE) {
+    player.setholdStatus(player.getholdStatus());
+    if (player.getID() === 1)
+      disableBtns(btnRollP1, btnHoldP1);
+    else
+      disableBtns(player, btnRollP2, btnHoldP2);
+  }
+}
+
+function disableBtns(rollBtn, holdBtn) {
+  rollBtn.toggleAttribute("disabled");
+  holdBtn.toggleAttribute("disabled");
+}
+
+function resolveMatch() {
+
+}
+
+const btnRollP1 = document.getElementById("btnRollP1");
+const btnHoldP1 = document.getElementById("btnHoldP1");
+const btnRollP2 = document.getElementById("btnRollP2");
+const btnHoldP2 = document.getElementById("btnHoldP2");
 const dieImgP1 = document.querySelector("#player1 > img");
 const dieImgP2 = document.querySelector("#player2 > img");
+const player1View = document.getElementById("player1");
+const player2View = document.getElementById("player2");
+
+btnRollP1.addEventListener("click", () => {
+  dieRoll(1);
+});
+
+btnHoldP1.addEventListener("click", () => {
+  disableBtns(player1);
+});
+
+btnRollP2.addEventListener("click", () => {
+  dieRoll(2);
+});
+
+btnRollP2.setAttribute("disabled", "");
+
+btnHoldP2.addEventListener("click", () => {
+  disableBtns(player2);
+});
+// Start the cycle
+btnHoldP2.setAttribute("disabled", "");
+player1View.classList.add("playerOutline");
 
 function dieRoll(player) {
-  let randNum = Math.floor(Math.random() * MaxDieValue + 1);
+  const RAND_NUM = Math.floor(Math.random() * MAX_DIE_VALUE + 1);
 
   if (player === 1) {
-    switch (randNum) {
+    resolvePlayerRoll(player1, RAND_NUM);
+
+    switch (RAND_NUM) {
       case 1:
         dieImgP1.src = "images/oneDieP1.svg";
         dieImgP1.alt = "Player 1 die with value of 1";
@@ -39,9 +144,10 @@ function dieRoll(player) {
         dieImgP1.alt = "A blank die for player 1"; 
     }
   }
-
   else if (player === 2) {
-    switch (randNum) {
+    resolvePlayerRoll(player2, RAND_NUM);
+
+    switch (RAND_NUM) {
       case 1:
         dieImgP2.src = "images/oneDieP2.svg";
         dieImgP2.alt = "Player 2 die with value of 1";
@@ -74,12 +180,35 @@ function dieRoll(player) {
   else {
     alert("Game has broken. Please fix the ride.");
   }
+
+  // if (!player1.getholdStatus() && !player2.getholdStatus())
+  //   resolveMatch();
+
+  if (player1.getHoldStatus() && player2.getHoldStatus())
+    switchTurns();
 }
 
-btnP1.addEventListener("click", function() {
-  dieRoll(1);
-});
+function switchTurns() {
+  player1.setTurnStatus(player1.getTurnStatus());
+  player2.setTurnStatus(player2.getTurnStatus());
+  toggleBtns();
+  toggleOutline();
+}
 
-btnP2.addEventListener("click", function() {
-  dieRoll(2);
-});
+function toggleBtns() {
+  btnRollP1.toggleAttribute("disabled");
+  btnHoldP1.toggleAttribute("disabled");
+  btnRollP2.toggleAttribute("disabled");
+  btnHoldP2.toggleAttribute("disabled");
+}
+
+function toggleOutline() {
+  player1View.classList.toggle("playerOutline");
+  player2View.classList.toggle("playerOutline");
+}
+
+// function resetGame() {
+
+// }
+
+// Scenario where one player holds, the other continues

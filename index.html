@@ -25,6 +25,7 @@
 
       <main>
         <p id="message">Closest to 21 wins!</p>
+        <p id="disclaimer">(Can't exceed 21)</p>
 
         <div id="playersTerminal">
           <div id="player1" class="players">
@@ -35,7 +36,10 @@
             </div>
             <p class="count">Count: <span class="player1Score">0</span></p>
             <img src="images/emptyDie.svg" alt="A blank die for player 1."/>
-            <button>Roll</button>
+            <div class="btns">
+              <button id="btnRollP1">Roll</button>
+              <button id="btnHoldP1">Hold</button>
+            </div>
           </div>
 
           <div id="player2" class="players">
@@ -46,7 +50,10 @@
             </div>
             <p class="count">Count: <span class="player2Score">0</span></p>
             <img src="images/emptyDie.svg" alt="A blank die for player 2."/>
-            <button>Roll</button>
+            <div class="btns">
+              <button id="btnRollP2">Roll</button>
+              <button id="btnHoldP2">Hold</button>
+            </div>
           </div>
         </div>
       </main>

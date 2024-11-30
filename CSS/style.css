@@ -1,15 +1,41 @@
-* {
-  box-sizing: border-box;
+:root {
+  --snake-eyes-width: 16rem;
 }
 
-html {
-  font-size: 62.5%;
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-size: 1.6rem;
   margin: 0;
   background-color: #477148;
+}
+
+button {
+  font-size: clamp(1.15rem, calc(.88rem + 3vw), 2.5rem);
+  font-weight: 600;
+  width: 7rem;
+  height: 5rem;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: aliceblue;
+}
+
+.count {
+  font-size: clamp(2rem, calc(1.68rem + 2vw), 3.75rem);
+  margin: 0;
+  text-align: center;
+}
+
+.playerInfo {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: .5rem;
 }
 
 #entirePage {
@@ -20,18 +46,8 @@ body {
   gap: 2rem;
 }
 
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-header > img, header > h1 {
-  margin-left: 5%;
-}
-
-header > h1 {
-  font-size: calc(2.38rem + 3vw);
+h1 {
+  font-size: clamp(4rem, calc(2.38rem + 3vw), 6rem);
   font-family: 'Tilt Prism', cursive;
 }
 
@@ -40,10 +56,43 @@ h2 {
   margin: 0;
 }
 
-p#message {
-  font-size: calc(1.38rem + 2vw);
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 14.8rem;
+}
+
+header > img {
+  width: var(--snake-eyes-width);
+}
+
+header > img, h1 {
+  margin-left: 5%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+main {
+  margin-bottom: 1.5rem;
+}
+
+#message {
+  font-size: clamp(1.75rem, calc(1.38rem + 2vw), 2.75rem);
   font-family: 'Figtree', sans-serif;
   margin: .5rem 0;
+  text-align: center;
+}
+
+.players {
+  gap: 1rem;
+}
+
+.players > h2 {
+  font-size: calc(1.88rem + 2vw);
+  margin: 0;
 }
 
 #playersTerminal {
@@ -60,57 +109,19 @@ p#message {
   align-items: center;
 }
 
-.players {
-  gap: 1rem;
-}
-
-div.playerInfo {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  gap: .5rem;
-}
-
 p.numOfWinsDisplay {
-  font-size: calc(1.75rem + 2vw);
+  font-size: clamp(1.55rem, calc(1.28rem + 2vw), 2.75rem);
   margin: 0;
-}
-
-.players > h2 {
-  font-size: calc(1.88rem + 2vw);
-  margin: 0;
-}
-
-.players > h3 {
-  font-size: calc(1.68rem + 2vw);
-  margin: 0;
-}
-
-#player2 {
-  margin-top: 2rem;
 }
 
 #player1 > button {
   color: #d1171b;
 }
 
+#player2 {
+  margin-top: 2rem;
+}
+
 #player2 > button {
   color: #411900;
-}
-
-button {
-  font-size: calc(.88rem + 3vw);;
-  font-weight: 600;
-  width: 7rem;
-  height: 5rem;
-  border-radius: .5rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: aliceblue;
-}
-
-main {
-  margin-bottom: 1.5rem;
 }

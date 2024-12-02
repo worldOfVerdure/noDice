@@ -60,23 +60,18 @@ const player2 = new Player(2, false);
 function resolvePlayerRoll(player, randNum) {
   player.setScore(randNum);
 
-  if (player.getScore > MAX_SCORE) {
-    player.setholdStatus(player.getholdStatus());
+  if (player.getScore() > MAX_SCORE) {
+    player.setHoldStatus(player.getholdStatus());
     if (player.getID() === 1)
       disableBtns(btnRollP1, btnHoldP1);
     else
-      disableBtns(player, btnRollP2, btnHoldP2);
+      disableBtns(btnRollP2, btnHoldP2);
   }
 }
 
-function disableBtns(rollBtn, holdBtn) {
-  rollBtn.toggleAttribute("disabled");
-  holdBtn.toggleAttribute("disabled");
-}
+// function resolveMatch() {
 
-function resolveMatch() {
-
-}
+// }
 
 const btnRollP1 = document.getElementById("btnRollP1");
 const btnHoldP1 = document.getElementById("btnHoldP1");
@@ -88,21 +83,21 @@ const player1View = document.getElementById("player1");
 const player2View = document.getElementById("player2");
 
 btnRollP1.addEventListener("click", () => {
-  dieRoll(1);
+  dieRoll(player1);
 });
 
 btnHoldP1.addEventListener("click", () => {
-  disableBtns(player1);
+  holdPlayerTurns(player1, btnRollP1, btnHoldP1);
 });
 
 btnRollP2.addEventListener("click", () => {
-  dieRoll(2);
+  dieRoll(player2);
 });
 
 btnRollP2.setAttribute("disabled", "");
 
 btnHoldP2.addEventListener("click", () => {
-  disableBtns(player2);
+  holdPlayerTurns(player2, btnRollP2, btnHoldP2);
 });
 // Start the cycle
 btnHoldP2.setAttribute("disabled", "");
@@ -111,7 +106,7 @@ player1View.classList.add("playerOutline");
 function dieRoll(player) {
   const RAND_NUM = Math.floor(Math.random() * MAX_DIE_VALUE + 1);
 
-  if (player === 1) {
+  if (player.getID() === 1) {
     resolvePlayerRoll(player1, RAND_NUM);
 
     switch (RAND_NUM) {
@@ -144,7 +139,7 @@ function dieRoll(player) {
         dieImgP1.alt = "A blank die for player 1"; 
     }
   }
-  else if (player === 2) {
+  else if (player.getID() === 2) {
     resolvePlayerRoll(player2, RAND_NUM);
 
     switch (RAND_NUM) {
@@ -184,11 +179,23 @@ function dieRoll(player) {
   // if (!player1.getholdStatus() && !player2.getholdStatus())
   //   resolveMatch();
 
-  if (player1.getHoldStatus() && player2.getHoldStatus())
-    switchTurns();
+  // if (player1.getHoldStatus() && player2.getHoldStatus())
+  //   switchTurns();
+}
+
+function holdPlayerTurns(player, rollBtn, holdBtn) {
+  // Hold player's future turns and disable their buttons
+  player.setHoldStatus(player.getHoldStatus());
+
+  rollBtn.toggleAttribute("disabled");
+  holdBtn.toggleAttribute("disabled");
 }
 
 function switchTurns() {
+  if (player1.getTurnStatus() && player1.getHoldStatus())
+    // do stuff
+  if (player2.getTurnStatus() && player2.getHoldStatus())
+    // do stuff
   player1.setTurnStatus(player1.getTurnStatus());
   player2.setTurnStatus(player2.getTurnStatus());
   toggleBtns();

@@ -1,3 +1,5 @@
+// TODO: zzz Class setters, when called, are not called w/ (). Fix this.
+
 const MAX_DIE_VALUE = 6;
 const MAX_SCORE = 21;
 
@@ -54,19 +56,57 @@ class Player {
   }
 }
 
+/*
+TODO: Introduce start game function to switch player order
+! Don't create a new object, simply switch turn status and reset scores
+*/
+
 const player1 = new Player(1, true);
 const player2 = new Player(2, false);
 
 function resolvePlayerRoll(player, randNum) {
   player.setScore(randNum);
 
-  if (player.getScore() > MAX_SCORE) {
-    player.setHoldStatus(player.getholdStatus());
-    if (player.getID() === 1)
-      disableBtns(btnRollP1, btnHoldP1);
+  if (player.getID === 1)
+    player1Score.innerText = player.getScore;
+
+  else
+    player2Score.innerText = player.getScore;
+
+  if (player.getScore >= MAX_SCORE) {
+    if (player.getID === 1)
+      holdPlayerTurns(player, btnRollP1, btnHoldP1, false);
     else
-      disableBtns(btnRollP2, btnHoldP2);
+      holdPlayerTurns(player, btnRollP2, btnHoldP2, false);
   }
+}
+
+function switchTurnsAuxiliary() {
+    player1.setTurnStatus(player1.getTurnStatus);
+    player2.setTurnStatus(player2.getTurnStatus);
+    toggleOutline();
+}
+
+function switchTurns() {
+  if (player1.getHoldStatus && player2.getHoldStatus)
+    resolveMatch();
+
+  else if (player1.getHoldStatus)
+    if (player1.getTurnStatus)
+      switchTurnsAuxiliary();
+    
+  else if (player2.getHoldStatus)
+    if (player2.getTurnStatus) 
+      switchTurnsAuxiliary();
+
+  else
+    switchTurnsAuxiliary();
+}
+
+function holdPlayerTurns(player, rollBtn, holdBtn, invokersFlag) {
+  player.setHoldStatus(player.getHoldStatus);
+  if (invokersFlag)
+    switchTurns(rollBtn, holdBtn);
 }
 
 // function resolveMatch() {
@@ -81,32 +121,35 @@ const dieImgP1 = document.querySelector("#player1 > img");
 const dieImgP2 = document.querySelector("#player2 > img");
 const player1View = document.getElementById("player1");
 const player2View = document.getElementById("player2");
+const player1Score = document.getElementById("player1Score");
+const player2Score = document.getElementById("player2Score");
 
 btnRollP1.addEventListener("click", () => {
-  dieRoll(player1);
+  resolveDieRoll(player1);
 });
 
 btnHoldP1.addEventListener("click", () => {
-  holdPlayerTurns(player1, btnRollP1, btnHoldP1);
+  // Last parameter ensures we don't call switchTurns twice in case when 21 is encountered
+  holdPlayerTurns(player1, btnRollP1, btnHoldP1, true);
 });
 
 btnRollP2.addEventListener("click", () => {
-  dieRoll(player2);
+  resolveDieRoll(player2);
 });
 
 btnRollP2.setAttribute("disabled", "");
 
 btnHoldP2.addEventListener("click", () => {
-  holdPlayerTurns(player2, btnRollP2, btnHoldP2);
+  holdPlayerTurns(player2, btnRollP2, btnHoldP2, true);
 });
-// Start the cycle
+// !Start the cycle (for now). Add start of cycle in starter function
 btnHoldP2.setAttribute("disabled", "");
 player1View.classList.add("playerOutline");
 
-function dieRoll(player) {
+function resolveDieRoll(player) {
   const RAND_NUM = Math.floor(Math.random() * MAX_DIE_VALUE + 1);
 
-  if (player.getID() === 1) {
+  if (player.getID === 1) {
     resolvePlayerRoll(player1, RAND_NUM);
 
     switch (RAND_NUM) {
@@ -139,7 +182,7 @@ function dieRoll(player) {
         dieImgP1.alt = "A blank die for player 1"; 
     }
   }
-  else if (player.getID() === 2) {
+  else if (player.getID === 2) {
     resolvePlayerRoll(player2, RAND_NUM);
 
     switch (RAND_NUM) {
@@ -176,32 +219,14 @@ function dieRoll(player) {
     alert("Game has broken. Please fix the ride.");
   }
 
-  // if (!player1.getholdStatus() && !player2.getholdStatus())
-  //   resolveMatch();
-
-  // if (player1.getHoldStatus() && player2.getHoldStatus())
-  //   switchTurns();
+  switchTurns();
 }
 
-function holdPlayerTurns(player, rollBtn, holdBtn) {
-  player.setHoldStatus(player.getHoldStatus());
-  disableBtns(rollBtn, holdBtn);
-}
-
-function switchTurns() {
-  if (player1.getTurnStatus() && player1.getHoldStatus())
-    // do stuff
-  if (player2.getTurnStatus() && player2.getHoldStatus())
-    // do stuff
-  player1.setTurnStatus(player1.getTurnStatus());
-  player2.setTurnStatus(player2.getTurnStatus());
-  toggleBtns();
-  toggleOutline();
-}
-
-function disableBtns(rollBtn, holdBtn) {
-  rollBtn.toggleAttribute("disable");
-  holdBtn.toggleAttribute("disable");
+function toggleBtns() {
+  btnRollP1.toggleAttribute("disable");
+  btnHoldP1.toggleAttribute("disable");
+  btnRollP2.toggleAttribute("disable");
+  btnHoldP2.toggleAttribute("disable");
 }
 
 function toggleOutline() {
@@ -212,5 +237,3 @@ function toggleOutline() {
 // function resetGame() {
 
 // }
-
-// Scenario where one player holds, the other continues

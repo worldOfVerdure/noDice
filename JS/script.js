@@ -184,11 +184,8 @@ function dieRoll(player) {
 }
 
 function holdPlayerTurns(player, rollBtn, holdBtn) {
-  // Hold player's future turns and disable their buttons
   player.setHoldStatus(player.getHoldStatus());
-
-  rollBtn.toggleAttribute("disabled");
-  holdBtn.toggleAttribute("disabled");
+  disableBtns(rollBtn, holdBtn);
 }
 
 function switchTurns() {
@@ -202,11 +199,9 @@ function switchTurns() {
   toggleOutline();
 }
 
-function toggleBtns() {
-  btnRollP1.toggleAttribute("disabled");
-  btnHoldP1.toggleAttribute("disabled");
-  btnRollP2.toggleAttribute("disabled");
-  btnHoldP2.toggleAttribute("disabled");
+function disableBtns(rollBtn, holdBtn) {
+  rollBtn.toggleAttribute("disable");
+  holdBtn.toggleAttribute("disable");
 }
 
 function toggleOutline() {

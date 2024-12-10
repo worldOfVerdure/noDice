@@ -1,5 +1,3 @@
-// TODO: zzz Class setters, when called, are not called w/ (). Fix this.
-
 const MAX_DIE_VALUE = 6;
 const MAX_SCORE = 21;
 
@@ -65,7 +63,7 @@ const player1 = new Player(1, true);
 const player2 = new Player(2, false);
 
 function resolvePlayerRoll(player, randNum) {
-  player.setScore(randNum);
+  player.setScore = randNum;
 
   if (player.getID === 1)
     player1Score.innerText = player.getScore;
@@ -82,8 +80,8 @@ function resolvePlayerRoll(player, randNum) {
 }
 
 function switchTurnsAuxiliary() {
-    player1.setTurnStatus(player1.getTurnStatus);
-    player2.setTurnStatus(player2.getTurnStatus);
+    player1.setTurnStatus = player1.getTurnStatus;
+    player2.setTurnStatus = player2.getTurnStatus;
     toggleOutline();
 }
 
@@ -104,7 +102,7 @@ function switchTurns() {
 }
 
 function holdPlayerTurns(player, rollBtn, holdBtn, invokersFlag) {
-  player.setHoldStatus(player.getHoldStatus);
+  player.setHoldStatus = player.getHoldStatus;
   if (invokersFlag)
     switchTurns(rollBtn, holdBtn);
 }

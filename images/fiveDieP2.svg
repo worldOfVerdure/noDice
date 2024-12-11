@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en-US" lang="en-US" viewBox="0 0 60 60"
+  width="60" height="60">
+  <title>Five Die P2</title>
+
+  <rect width="45" height="45" x="7.5" y="7.5" rx="5" ry="5" stroke="#000" stroke-width="3" fill="#d9ceae"/>
+  <circle cx="17.3329" cy="17.3329" r="5.8329" stroke="#000" stroke-width="2" fill="#411900"/>
+  <circle cx="42.6671" cy="42.6671" r="5.8329" stroke="#000" stroke-width="2" fill="#411900"/>
+  <circle cx="30" cy="30" r="5.8329" stroke="#000" stroke-width="2" fill="#411900"/>
+  <circle cx="17.3329" cy="42.6671" r="5.8329" stroke="#000" stroke-width="2" fill="#411900"/>
+  <circle cx="42.6671" cy="17.3329" r="5.8329" stroke="#000" stroke-width="2" fill="#411900"/>  
+</svg>

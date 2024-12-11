@@ -72,39 +72,80 @@ function resolvePlayerRoll(player, randNum) {
     player2Score.innerText = player.getScore;
 
   if (player.getScore >= MAX_SCORE) {
-    if (player.getID === 1)
-      holdPlayerTurns(player, btnRollP1, btnHoldP1, false);
-    else
-      holdPlayerTurns(player, btnRollP2, btnHoldP2, false);
+    holdPlayerTurns(player);
   }
 }
 
-function switchTurnsAuxiliary() {
-    player1.setTurnStatus = player1.getTurnStatus;
-    player2.setTurnStatus = player2.getTurnStatus;
-    toggleOutline();
+function holdPlayerTurns(player) {
+  player.setHoldStatus = player.getHoldStatus;
+  player.setTurnStatus = player.getTurnStatus;
+
+  if (player.getID === 1) {
+    toggleBtns(btnRollP1, btnHoldP1);
+    toggleOutline(player1);
+  }
+  else {
+    toggleBtns(btnRollP2, btnHoldP2);
+    toggleOutline(player2);
+  }
+}
+/*
+if (player1.getTurnStatus) {
+    toggleBtns(btnRollP1, btnHoldP1);
+    toggleOutline(player1);
+  }
+
+  else {
+    
+  }
+*/
+function switchTurnsNoHold () {
+  toggleBtns(btnRollP1, btnHoldP1);
+  toggleOutline(player1);
+  toggleBtns(btnRollP2, btnHoldP2);
+  toggleOutline(player2);
+}
+
+function switchTurnsOnePlayerHold(player) {
+  //!zzz write logic for when one player holds.
+    
 }
 
 function switchTurns() {
   if (player1.getHoldStatus && player2.getHoldStatus)
-    resolveMatch();
+    console.log("Game finished.") //resolveMatch();
 
-  else if (player1.getHoldStatus)
-    if (player1.getTurnStatus)
-      switchTurnsAuxiliary();
+  else if (player1.getHoldStatus) {
+    if (!player2.getTurnStatus)
+      switchTurnsOnePlayerHold(player2);
+    else
+      return ;
+  }
     
-  else if (player2.getHoldStatus)
-    if (player2.getTurnStatus) 
-      switchTurnsAuxiliary();
+  else if (player2.getHoldStatus) {
+    if (!player1.getTurnStatus)
+      switchTurnsOnePlayerHold(player1);
+    else
+      return ;
+  }
 
-  else
-    switchTurnsAuxiliary();
+  else {
+    switchTurnsNoHold();
+  }
 }
 
-function holdPlayerTurns(player, rollBtn, holdBtn, invokersFlag) {
-  player.setHoldStatus = player.getHoldStatus;
-  if (invokersFlag)
-    switchTurns(rollBtn, holdBtn);
+function toggleBtns(rollBtn, holdBtn) {
+  rollBtn.toggleAttribute("disable");
+  holdBtn.toggleAttribute("disable");
+}
+
+function toggleOutline(player) {
+  if (player.getID === 1)
+    player1View.classList.toggle("playerOutline");
+
+  else
+    player2View.classList.toggle("playerOutline");
+  
 }
 
 // function resolveMatch() {
@@ -218,18 +259,6 @@ function resolveDieRoll(player) {
   }
 
   switchTurns();
-}
-
-function toggleBtns() {
-  btnRollP1.toggleAttribute("disable");
-  btnHoldP1.toggleAttribute("disable");
-  btnRollP2.toggleAttribute("disable");
-  btnHoldP2.toggleAttribute("disable");
-}
-
-function toggleOutline() {
-  player1View.classList.toggle("playerOutline");
-  player2View.classList.toggle("playerOutline");
 }
 
 // function resetGame() {

@@ -89,16 +89,7 @@ function holdPlayerTurns(player) {
     toggleOutline(player2);
   }
 }
-/*
-if (player1.getTurnStatus) {
-    toggleBtns(btnRollP1, btnHoldP1);
-    toggleOutline(player1);
-  }
 
-  else {
-    
-  }
-*/
 function switchTurnsNoHold () {
   toggleBtns(btnRollP1, btnHoldP1);
   toggleOutline(player1);
@@ -107,8 +98,14 @@ function switchTurnsNoHold () {
 }
 
 function switchTurnsOnePlayerHold(player) {
-  //!zzz write logic for when one player holds.
-    
+  if (player.getID === 1) {
+    toggleBtns(btnRollP1, btnHoldP1);
+    toggleOutline(player1);
+  }
+  else {
+    toggleBtns(btnRollP2, btnHoldP2);
+    toggleOutline(player2);
+  }
 }
 
 function switchTurns() {
@@ -135,8 +132,8 @@ function switchTurns() {
 }
 
 function toggleBtns(rollBtn, holdBtn) {
-  rollBtn.toggleAttribute("disable");
-  holdBtn.toggleAttribute("disable");
+  rollBtn.toggleAttribute("disabled");
+  holdBtn.toggleAttribute("disabled");
 }
 
 function toggleOutline(player) {

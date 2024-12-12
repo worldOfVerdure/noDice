@@ -71,6 +71,7 @@ function resolvePlayerRoll(player, randNum) {
   else
     player2Score.innerText = player.getScore;
 
+  //! Game ending, fix logic
   if (player.getScore >= MAX_SCORE) {
     holdPlayerTurns(player);
   }

@@ -71,9 +71,40 @@ function resolvePlayerRoll(player, randNum) {
   else
     player2Score.innerText = player.getScore;
 
-  if (player.getScore >= MAX_SCORE) {
+  if (player.getScore === MAX_SCORE) {
     holdPlayerTurns(player);
   }
+
+  else if (player.getScore > MAX_SCORE)
+    resolveMatch();
+}
+
+function resolveMatch() {
+  if (player1.getScore === player2.getScore)
+    matchConcludeComponent(3);
+  else if ((player1.getScore > MAX_SCORE) || (player2.getScore > player1.getScore))
+    matchConcludeComponent(2);
+  else if ((player2.getScore > MAX_SCORE) || (player1.getScore > player2.getScore))
+    matchConcludeComponent(1);
+}
+
+function matchConcludeComponent(victor) {
+  if (victor === 1) {
+    playerColor.innerText = "Player 1";
+    playerColor.classList.add("victorColor1");
+    winningMessage.innerText = " is the victor!";
+  }
+  else if (victor === 2) {
+    playerColor.innerText = "Player 2";
+    playerColor.classList.add("victorColor2");
+    winningMessage.innerText = "Player 1 is the victor!";
+  }
+
+  else {
+    playerColor.innerText = "";
+    winningMessage.innerText = "It's a tie!";
+  }
+  matchConcludeMenu.style.display = "flex";
 }
 
 function holdPlayerTurns(player) {
@@ -145,10 +176,6 @@ function toggleOutline(player) {
   
 }
 
-// function resolveMatch() {
-
-// }
-
 const btnRollP1 = document.getElementById("btnRollP1");
 const btnHoldP1 = document.getElementById("btnHoldP1");
 const btnRollP2 = document.getElementById("btnRollP2");
@@ -159,6 +186,14 @@ const player1View = document.getElementById("player1");
 const player2View = document.getElementById("player2");
 const player1Score = document.getElementById("player1Score");
 const player2Score = document.getElementById("player2Score");
+const matchConcludeMenu = document.getElementById("matchConcludeMenu");
+const winningMessage = document.getElementById("winningMessage");
+const playerColor = document.getElementById("playerColor");
+const againBtn = document.getElementById("againBtn");
+
+againBtn.addEventListener("click", () => {
+  startRound();
+});
 
 btnRollP1.addEventListener("click", () => {
   resolveDieRoll(player1);

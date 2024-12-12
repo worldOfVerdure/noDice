@@ -10,6 +10,8 @@ body {
   background-color: #477148;
   font-size: 1.6rem;
   margin: 0;
+  min-height: 100vh;
+  position: relative;
 }
 
 #btnRollP1, #btnRollP2 {
@@ -79,6 +81,19 @@ main {
   margin-bottom: 1.5rem;
 }
 
+#matchConcludeMenu {
+  align-items: center;
+  box-shadow: 0 0 0 100000px rgba(0,0,0,.2);
+  display: none;
+  height: 45%;
+  justify-content: center;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 45%;
+}
+
 #message {
   font-family: 'Figtree', sans-serif;
   font-size: clamp(1.75rem, calc(1.38rem + 2vw), 2.75rem);
@@ -125,7 +140,8 @@ p.numOfWinsDisplay {
   margin: 0;
 }
 
-#player1 button {
+#player1 button,
+span.victorColor1 {
   color: #d1171b;
 }
 
@@ -133,6 +149,7 @@ p.numOfWinsDisplay {
   margin-top: 2rem;
 }
 
-#player2 button {
+#player2 button,
+span.victorColor2 {
   color: #411900;
 }

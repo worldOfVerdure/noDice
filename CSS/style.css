@@ -10,6 +10,8 @@ body {
   background-color: #477148;
   font-size: 1.6rem;
   margin: 0;
+  min-height: 100vh;
+  position: relative;
 }
 
 #btnRollP1, #btnRollP2 {
@@ -25,6 +27,12 @@ button {
   width: 7rem;
 }
 
+button#againBtn {
+  font-size: clamp(1.6rem, calc(1.5rem + 2vw), 2.5rem);
+  padding: 1rem;
+  width: fit-content;
+}
+
 .count, #disclaimer, #message {
   text-align: center;
 } 
@@ -37,6 +45,22 @@ button {
 #disclaimer {
   font-size: clamp(1.2rem, calc(.8rem + 2vw), 2.2rem);
   margin: 0 0 .5rem 0;
+}
+
+div#matchConcludeMenu {
+  align-items: center;
+  background-color: #125513;
+  box-shadow: 0 0 0 100000px rgba(0,0,0,.2);
+  display: none;
+  flex-direction: column;
+  height: 45%;
+  justify-content: space-around;
+  left: 50%;
+  position: absolute;
+  /* opacity: .4; */
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 45%;
 }
 
 #entirePage {
@@ -73,6 +97,10 @@ header > img, h1 {
 
 html {
   font-size: 62.5%;
+}
+
+p#winningMessage {
+  font-size: clamp(2.5rem, calc(2rem + 2vw), 4.5rem);
 }
 
 main {
@@ -125,7 +153,8 @@ p.numOfWinsDisplay {
   margin: 0;
 }
 
-#player1 button {
+#player1 button,
+span.victorColor1 {
   color: #d1171b;
 }
 
@@ -133,6 +162,14 @@ p.numOfWinsDisplay {
   margin-top: 2rem;
 }
 
-#player2 button {
+#player2 button,
+span.victorColor2 {
   color: #411900;
+}
+
+@media (max-width: 675px) {
+  div#matchConcludeMenu {
+    height: 60%;
+    width: 80%;
+  }
 }

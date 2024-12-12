@@ -34,11 +34,11 @@ class Player {
     this.turnStatus = !status;
   }
 
-  get getScore() {
+  get getCount() {
     return this.score;
   }
   
-  set setScore(roll) {
+  set setCount(roll) {
     this.score += roll;
   }
 
@@ -63,18 +63,47 @@ const player1 = new Player(1, true);
 const player2 = new Player(2, false);
 
 function resolvePlayerRoll(player, randNum) {
-  player.setScore = randNum;
+  player.setCount = randNum;
 
   if (player.getID === 1)
-    player1Score.innerText = player.getScore;
-
+    player1Score.innerText = player.getCount;
   else
-    player2Score.innerText = player.getScore;
+    player2Score.innerText = player.getCount;
 
-  //! Game ending, fix logic
-  if (player.getScore >= MAX_SCORE) {
+  if (player.getCount === MAX_SCORE) {
     holdPlayerTurns(player);
   }
+  else if (player.getCount > MAX_SCORE)
+    resolveMatch();
+}
+
+function resolveMatch() {
+  if (player1.getCount === player2.getCount)
+    matchConcludeComponent(3);
+  else if ((player1.getCount > MAX_SCORE) || (player1.getCount > player2.getCount))
+    matchConcludeComponent(2);
+  else if ((player2.getCount > MAX_SCORE) || (player1.getCount < player2.getCount))
+    matchConcludeComponent(1);
+}
+
+function matchConcludeComponent(victor) {
+  console.log(victor);
+  //!zzz Do a stack trace and see why span is not being added to the DOM
+  if (victor === 1) {
+    playerColor.innerText = "Player 1";
+    playerColor.classList.add("victorColor1");
+    winningMessage.innerText = " is the victor!";
+  }
+  else if (victor === 2) {
+    playerColor.innerText = "Player 2";
+    playerColor.classList.add("victorColor2");
+    winningMessage.innerText = " is the victor!";
+  }
+  else {
+    playerColor.innerText = "";
+    winningMessage.innerText = "It's a tie!";
+  }
+  matchConcludeMenu.style.display = "flex";
 }
 
 function holdPlayerTurns(player) {
@@ -89,9 +118,13 @@ function holdPlayerTurns(player) {
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
   }
+
+  switchTurns();
 }
 
 function switchTurnsNoHold () {
+  player1.setTurnStatus = player1.getTurnStatus;
+  player2.setTurnStatus = player2.getTurnStatus;
   toggleBtns(btnRollP1, btnHoldP1);
   toggleOutline(player1);
   toggleBtns(btnRollP2, btnHoldP2);
@@ -100,10 +133,12 @@ function switchTurnsNoHold () {
 
 function switchTurnsOnePlayerHold(player) {
   if (player.getID === 1) {
+    player1.setTurnStatus = player1.getTurnStatus;
     toggleBtns(btnRollP1, btnHoldP1);
     toggleOutline(player1);
   }
   else {
+    player2.setTurnStatus = player2.getTurnStatus;
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
   }
@@ -111,7 +146,7 @@ function switchTurnsOnePlayerHold(player) {
 
 function switchTurns() {
   if (player1.getHoldStatus && player2.getHoldStatus)
-    console.log("Game finished.") //resolveMatch();
+    resolveMatch();
 
   else if (player1.getHoldStatus) {
     if (!player2.getTurnStatus)
@@ -146,10 +181,6 @@ function toggleOutline(player) {
   
 }
 
-// function resolveMatch() {
-
-// }
-
 const btnRollP1 = document.getElementById("btnRollP1");
 const btnHoldP1 = document.getElementById("btnHoldP1");
 const btnRollP2 = document.getElementById("btnRollP2");
@@ -160,6 +191,16 @@ const player1View = document.getElementById("player1");
 const player2View = document.getElementById("player2");
 const player1Score = document.getElementById("player1Score");
 const player2Score = document.getElementById("player2Score");
+const matchConcludeMenu = document.getElementById("matchConcludeMenu");
+const winningMessage = document.getElementById("winningMessage");
+const playerColor = document.getElementById("playerColor");
+const againBtn = document.getElementById("againBtn");
+
+// console.log(playerColor.tagName);
+
+againBtn.addEventListener("click", () => {
+  startRound();
+});
 
 btnRollP1.addEventListener("click", () => {
   resolveDieRoll(player1);
@@ -167,7 +208,7 @@ btnRollP1.addEventListener("click", () => {
 
 btnHoldP1.addEventListener("click", () => {
   // Last parameter ensures we don't call switchTurns twice in case when 21 is encountered
-  holdPlayerTurns(player1, btnRollP1, btnHoldP1, true);
+  holdPlayerTurns(player1);
 });
 
 btnRollP2.addEventListener("click", () => {
@@ -177,7 +218,7 @@ btnRollP2.addEventListener("click", () => {
 btnRollP2.setAttribute("disabled", "");
 
 btnHoldP2.addEventListener("click", () => {
-  holdPlayerTurns(player2, btnRollP2, btnHoldP2, true);
+  holdPlayerTurns(player2);
 });
 // !Start the cycle (for now). Add start of cycle in starter function
 btnHoldP2.setAttribute("disabled", "");

@@ -6,6 +6,12 @@
   box-sizing: border-box;
 }
 
+#againBtn {
+  margin-top: 8rem;
+  padding: 1rem;
+  width: fit-content;
+}
+
 body {
   background-color: #477148;
   font-size: 1.6rem;
@@ -83,11 +89,14 @@ main {
 
 #matchConcludeMenu {
   align-items: center;
+  background-color: #2a832b;
   box-shadow: 0 0 0 100000px rgba(0,0,0,.2);
   display: none;
+  flex-direction: column;
   height: 45%;
   justify-content: center;
   left: 50%;
+  max-width: 40rem;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -152,4 +161,35 @@ span.victorColor1 {
 #player2 button,
 span.victorColor2 {
   color: #411900;
+}
+
+.victorColor1 {
+  color: #d1171b;
+}
+
+.victorColor2 {
+  color: #411900;
+}
+
+#winner {
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(1.85rem, calc(1.48rem + 2vw), 3.85rem);
+  margin: 0;
+}
+
+#winnerContainer {
+  align-items: center;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+#winningFlag {
+  width: 5rem;
+}
+
+#winningMessage {
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(1.75rem, calc(1.38rem + 2vw), 3.75rem);
+  margin: 1rem 0;
 }

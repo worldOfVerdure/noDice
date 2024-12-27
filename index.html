@@ -31,7 +31,7 @@
           <div id="player1" class="players">
             <div class="playerInfo">
               <h2>Player 1</h2>
-              <img class="playerFlag" src="./images/flagP1.svg" alt="Player 1 flag"/>
+              <img src="./images/flagP1.svg" alt="Player 1 flag"/>
               <p class="numOfWinsDisplay">x: <span id="player1Wins">0</span></p>
             </div>
             <p class="count">Count: <span id="player1Score">0</span></p>
@@ -45,7 +45,7 @@
           <div id="player2" class="players">
             <div class="playerInfo">
               <h2>Player 2</h2>
-              <img class="playerFlag" src="./images/flagP2.svg" alt="Player 2 flag"/>
+              <img src="./images/flagP2.svg" alt="Player 2 flag"/>
               <p class="numOfWinsDisplay">x: <span id="player2Wins">0</span></p>
             </div>
             <p class="count">Count: <span id="player2Score">0</span></p>
@@ -59,7 +59,11 @@
       </main>
     </div>
     <div id="matchConcludeMenu">
-      <p id="winningMessage"><span id="playerColor"></span></p>
+      <div id="winnerContainer">
+        <p id="winner"></p>
+        <img id="winningFlag" />
+      </div>
+      <p id="winningMessage"></p>
       <button id="againBtn" type="button">Play Again?</button>
     </div>
     <script src="JS/script.js"></script>

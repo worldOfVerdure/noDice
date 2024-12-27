@@ -1,3 +1,4 @@
+let playerStartFlag = true;
 const MAX_DIE_VALUE = 6;
 const MAX_SCORE = 21;
 
@@ -65,19 +66,31 @@ const player2 = new Player(2, false);
 function resolvePlayerRoll(player, randNum) {
   player.setScore = randNum;
 
-  if (player.getID === 1)
+  if (player.getID === 1) {
     player1Score.innerText = player.getScore;
 
-  else
-    player2Score.innerText = player.getScore;
+    if (player.getScore === MAX_SCORE) {
+      holdPlayerTurns(player);
 
-  if (player.getScore === MAX_SCORE) {
-    holdPlayerTurns(player);
+      if (player2.getHoldStatus)
+        resolveMatch();
+    }
   }
 
-  else if (player.getScore > MAX_SCORE)
+  else {
+    player2Score.innerText = player.getScore;
+
+    if (player.getScore === MAX_SCORE) {
+      holdPlayerTurns(player);
+
+      if (player1.getHoldStatus)
+        resolveMatch();
+    }
+  }
+
+  if (player.getScore > MAX_SCORE)
     resolveMatch();
-}
+  }
 
 function resolveMatch() {
   if (player1.getScore === player2.getScore)
@@ -86,22 +99,28 @@ function resolveMatch() {
     matchConcludeComponent(2);
   else if ((player2.getScore > MAX_SCORE) || (player1.getScore > player2.getScore))
     matchConcludeComponent(1);
+
+  playerStartFlag = !playerStartFlag;
 }
 
 function matchConcludeComponent(victor) {
   if (victor === 1) {
-    playerColor.innerText = "Player 1";
-    playerColor.classList.add("victorColor1");
+    winner.innerText = "Player 1";
+    winner.classList.add("victorColor1");
     winningMessage.innerText = " is the victor!";
+    winnerFlag.setAttribute("src", "../images/flagP1.svg");
+    winnerFlag.setAttribute("alt", "Player 1 flag.");
   }
   else if (victor === 2) {
-    playerColor.innerText = "Player 2";
-    playerColor.classList.add("victorColor2");
-    winningMessage.innerText = "Player 1 is the victor!";
+    winner.innerText = "Player 2";
+    winner.classList.add("victorColor2");
+    winningMessage.innerText = " is the victor!";
+    winnerFlag.setAttribute("src", "../images/flagP2.svg");
+    winnerFlag.setAttribute("alt", "Player 2 flag.");
   }
 
   else {
-    playerColor.innerText = "";
+    winner.innerText = "";
     winningMessage.innerText = "It's a tie!";
   }
   matchConcludeMenu.style.display = "flex";
@@ -119,6 +138,8 @@ function holdPlayerTurns(player) {
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
   }
+
+  switchTurns();
 }
 
 function switchTurnsNoHold () {
@@ -132,29 +153,27 @@ function switchTurnsOnePlayerHold(player) {
   if (player.getID === 1) {
     toggleBtns(btnRollP1, btnHoldP1);
     toggleOutline(player1);
+    player1.setTurnStatus = player1.getTurnStatus;
   }
   else {
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
+    player2.setTurnStatus = player2.getTurnStatus;
   }
 }
 
 function switchTurns() {
   if (player1.getHoldStatus && player2.getHoldStatus)
-    console.log("Game finished.") //resolveMatch();
+    resolveMatch();
 
   else if (player1.getHoldStatus) {
     if (!player2.getTurnStatus)
       switchTurnsOnePlayerHold(player2);
-    else
-      return ;
   }
     
   else if (player2.getHoldStatus) {
     if (!player1.getTurnStatus)
       switchTurnsOnePlayerHold(player1);
-    else
-      return ;
   }
 
   else {
@@ -173,26 +192,26 @@ function toggleOutline(player) {
 
   else
     player2View.classList.toggle("playerOutline");
-  
 }
 
-const btnRollP1 = document.getElementById("btnRollP1");
+const againBtn = document.getElementById("againBtn");
 const btnHoldP1 = document.getElementById("btnHoldP1");
-const btnRollP2 = document.getElementById("btnRollP2");
 const btnHoldP2 = document.getElementById("btnHoldP2");
+const btnRollP1 = document.getElementById("btnRollP1");
+const btnRollP2 = document.getElementById("btnRollP2");
 const dieImgP1 = document.querySelector("#player1 > img");
 const dieImgP2 = document.querySelector("#player2 > img");
-const player1View = document.getElementById("player1");
-const player2View = document.getElementById("player2");
+const matchConcludeMenu = document.getElementById("matchConcludeMenu");
 const player1Score = document.getElementById("player1Score");
 const player2Score = document.getElementById("player2Score");
-const matchConcludeMenu = document.getElementById("matchConcludeMenu");
+const player1View = document.getElementById("player1");
+const player2View = document.getElementById("player2");
+const winner = document.getElementById("winner");
+const winnerFlag = document.getElementById("winningFlag");
 const winningMessage = document.getElementById("winningMessage");
-const playerColor = document.getElementById("playerColor");
-const againBtn = document.getElementById("againBtn");
 
 againBtn.addEventListener("click", () => {
-  startRound();
+  startRound(playerStartFlag);
 });
 
 btnRollP1.addEventListener("click", () => {
@@ -293,6 +312,47 @@ function resolveDieRoll(player) {
   switchTurns();
 }
 
-// function resetGame() {
+function startRound(flag) {
+  matchConcludeMenu.style.display = "none";
+  resetScores();
+  // Player 1 starts next round
+  if (flag) {
+    if (!player1.getTurnStatus)
+      player1.setTurnStatus = player1.getTurnStatus;
+    if (player1.getHoldStatus)
+      player1.setHoldStatus = player1.getHoldStatus;
+    if (player2.getTurnStatus)
+      player2.setTurnStatus = player2.getTurnStatus;
+    if (!player2.getHoldStatus)
+      player2.setHoldStatus = player2.getHoldStatus;
 
-// }
+    if (btnRollP1.hasAttribute("disabled") && btnHoldP1.hasAttribute("disabled"))
+      toggleBtns(btnRollP1, btnHoldP1);
+    if (!(btnRollP2.hasAttribute("disabled") && btnHoldP2.hasAttribute("disabled")))
+      toggleBtns(btnRollP1, btnHoldP1);
+  }
+  // Player 2 starts next round
+  else {
+    if (player1.getTurnStatus)
+      player1.setTurnStatus = player1.getTurnStatus;
+    if (!player1.getHoldStatus)
+      player1.setHoldStatus = player1.getHoldStatus;
+    if (!player2.getTurnStatus)
+      player2.setTurnStatus = player2.getTurnStatus;
+    if (player2.getHoldStatus)
+      player2.setHoldStatus = player2.getHoldStatus;
+
+    if (!(btnRollP1.hasAttribute("disabled") && btnHoldP1.hasAttribute("disabled")))
+      toggleBtns(btnRollP1, btnHoldP1);
+    if (btnRollP2.hasAttribute("disabled") && btnHoldP2.hasAttribute("disabled"))
+      toggleBtns(btnRollP1, btnHoldP1);
+  }
+}
+
+function resetScores () {
+  player1.setScore = -1 * player1.getScore;
+  player2.setScore = -1 * player2.getScore;
+
+  player1Score.innerText = player1.getScore;
+  player2Score.innerText = player2.getScore;
+}

@@ -55,11 +55,6 @@ class Player {
   }
 }
 
-/*
-TODO: Introduce start game function to switch player order
-! Don't create a new object, simply switch turn status and reset scores
-*/
-
 const player1 = new Player(1, true);
 const player2 = new Player(2, false);
 
@@ -71,9 +66,15 @@ function resolvePlayerRoll(player, randNum) {
 
     if (player.getScore === MAX_SCORE) {
       holdPlayerTurns(player);
-
+  
       if (player2.getHoldStatus)
         resolveMatch();
+    }
+
+    if (player.getScore > MAX_SCORE) {
+      holdPlayerTurns(player);
+      holdPlayerTurns(player2);
+      resolveMatch();
     }
   }
 
@@ -85,12 +86,15 @@ function resolvePlayerRoll(player, randNum) {
 
       if (player1.getHoldStatus)
         resolveMatch();
+
+      if (player.getScore > MAX_SCORE) {
+        holdPlayerTurns(player);
+        holdPlayerTurns(player1);
+        resolveMatch();
+      }
     }
   }
-
-  if (player.getScore > MAX_SCORE)
-    resolveMatch();
-  }
+}
 
 function resolveMatch() {
   if (player1.getScore === player2.getScore)
@@ -220,7 +224,7 @@ btnRollP1.addEventListener("click", () => {
 
 btnHoldP1.addEventListener("click", () => {
   // Last parameter ensures we don't call switchTurns twice in case when 21 is encountered
-  holdPlayerTurns(player1, btnRollP1, btnHoldP1, true);
+  holdPlayerTurns(player1);
 });
 
 btnRollP2.addEventListener("click", () => {
@@ -230,7 +234,7 @@ btnRollP2.addEventListener("click", () => {
 btnRollP2.setAttribute("disabled", "");
 
 btnHoldP2.addEventListener("click", () => {
-  holdPlayerTurns(player2, btnRollP2, btnHoldP2, true);
+  holdPlayerTurns(player2);
 });
 // !Start the cycle (for now). Add start of cycle in starter function
 btnHoldP2.setAttribute("disabled", "");
@@ -315,37 +319,22 @@ function resolveDieRoll(player) {
 function startRound(flag) {
   matchConcludeMenu.style.display = "none";
   resetScores();
+
   // Player 1 starts next round
   if (flag) {
-    if (!player1.getTurnStatus)
-      player1.setTurnStatus = player1.getTurnStatus;
-    if (player1.getHoldStatus)
-      player1.setHoldStatus = player1.getHoldStatus;
-    if (player2.getTurnStatus)
-      player2.setTurnStatus = player2.getTurnStatus;
-    if (!player2.getHoldStatus)
-      player2.setHoldStatus = player2.getHoldStatus;
+    player1.setTurnStatus = player1.getTurnStatus;
+    player1.getHoldStatus = player1.getHoldStatus;
 
-    if (btnRollP1.hasAttribute("disabled") && btnHoldP1.hasAttribute("disabled"))
-      toggleBtns(btnRollP1, btnHoldP1);
-    if (!(btnRollP2.hasAttribute("disabled") && btnHoldP2.hasAttribute("disabled")))
-      toggleBtns(btnRollP1, btnHoldP1);
+    toggleBtns(btnRollP1, btnHoldP1);
+    toggleOutline(player1);
   }
   // Player 2 starts next round
   else {
-    if (player1.getTurnStatus)
-      player1.setTurnStatus = player1.getTurnStatus;
-    if (!player1.getHoldStatus)
-      player1.setHoldStatus = player1.getHoldStatus;
-    if (!player2.getTurnStatus)
-      player2.setTurnStatus = player2.getTurnStatus;
-    if (player2.getHoldStatus)
-      player2.setHoldStatus = player2.getHoldStatus;
+    player2.setTurnStatus = player2.getTurnStatus;
+    player2.getHoldStatus = player2.getHoldStatus;
 
-    if (!(btnRollP1.hasAttribute("disabled") && btnHoldP1.hasAttribute("disabled")))
-      toggleBtns(btnRollP1, btnHoldP1);
-    if (btnRollP2.hasAttribute("disabled") && btnHoldP2.hasAttribute("disabled"))
-      toggleBtns(btnRollP1, btnHoldP1);
+    toggleBtns(btnRollP2, btnHoldP2);
+    toggleOutline(player2);
   }
 }
 

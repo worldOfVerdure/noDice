@@ -131,8 +131,14 @@ function matchConcludeComponent(victor) {
 }
 
 function holdPlayerTurns(player) {
+  console.log(`P1 Hold ${player1.getHoldStatus} and P1 turn is ${player1.getTurnStatus}`);
+  console.log(`P2 Hold ${player2.getHoldStatus} and P2 turn is ${player2.getTurnStatus}`);
+  
   player.setHoldStatus = player.getHoldStatus;
   player.setTurnStatus = player.getTurnStatus;
+
+  console.log(`P1 Hold ${player1.getHoldStatus} and P1 turn is ${player1.getTurnStatus}`);
+  console.log(`P2 Hold ${player2.getHoldStatus} and P2 turn is ${player2.getTurnStatus}`);
 
   if (player.getID === 1) {
     toggleBtns(btnRollP1, btnHoldP1);
@@ -341,6 +347,10 @@ function startRound(flag) {
 function resetScores () {
   player1.setScore = -1 * player1.getScore;
   player2.setScore = -1 * player2.getScore;
+
+  // console.log(`Whose turn is it? ${playerStartFlag}`);
+  // console.log(`P1 Hold ${player1.getHoldStatus} and P1 turn is ${player1.getTurnStatus}`);
+  // console.log(`P2 Hold ${player2.getHoldStatus} and P2 turn is ${player2.getTurnStatus}`);
 
   player1Score.innerText = player1.getScore;
   player2Score.innerText = player2.getScore;

@@ -30,6 +30,7 @@ button {
   font-size: clamp(1.15rem, calc(.88rem + 3vw), 2.5rem);
   font-weight: 600;
   height: 5rem;
+  text-align: center;
   width: 7rem;
 }
 

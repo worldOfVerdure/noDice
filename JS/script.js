@@ -73,7 +73,8 @@ function resolvePlayerRoll(player, randNum) {
 
     if (player.getScore > MAX_SCORE) {
       holdPlayerTurns(player);
-      holdPlayerTurns(player2);
+      if (!player2.getHoldStatus)
+        holdPlayerTurns(player2);
       resolveMatch();
     }
   }
@@ -86,12 +87,13 @@ function resolvePlayerRoll(player, randNum) {
 
       if (player1.getHoldStatus)
         resolveMatch();
+    }
 
-      if (player.getScore > MAX_SCORE) {
-        holdPlayerTurns(player);
+    if (player.getScore > MAX_SCORE) {
+      holdPlayerTurns(player);
+      if (!player1.getHoldStatus)
         holdPlayerTurns(player1);
-        resolveMatch();
-      }
+      resolveMatch();
     }
   }
 }
@@ -99,15 +101,21 @@ function resolvePlayerRoll(player, randNum) {
 function resolveMatch() {
   if (player1.getScore === player2.getScore)
     matchConcludeComponent(3);
-  else if ((player1.getScore > MAX_SCORE) || (player2.getScore > player1.getScore))
+  else if (player1.getScore > MAX_SCORE)
     matchConcludeComponent(2);
-  else if ((player2.getScore > MAX_SCORE) || (player1.getScore > player2.getScore))
+  else if (player2.getScore > MAX_SCORE )
     matchConcludeComponent(1);
+  else if (player1.getScore > player2.getScore)
+    matchConcludeComponent(1);
+  else
+  matchConcludeComponent(2);
 
   playerStartFlag = !playerStartFlag;
 }
 
 function matchConcludeComponent(victor) {
+  finalDisplayScore1.innerText = `Player 1: ${player1.getScore}`;
+  finalDisplayScore2.innerText = `Player 2: ${player2.getScore}`;
   if (victor === 1) {
     winner.innerText = "Player 1";
     winner.classList.add("victorColor1");
@@ -131,14 +139,8 @@ function matchConcludeComponent(victor) {
 }
 
 function holdPlayerTurns(player) {
-  console.log(`P1 Hold ${player1.getHoldStatus} and P1 turn is ${player1.getTurnStatus}`);
-  console.log(`P2 Hold ${player2.getHoldStatus} and P2 turn is ${player2.getTurnStatus}`);
-  
   player.setHoldStatus = player.getHoldStatus;
   player.setTurnStatus = player.getTurnStatus;
-
-  console.log(`P1 Hold ${player1.getHoldStatus} and P1 turn is ${player1.getTurnStatus}`);
-  console.log(`P2 Hold ${player2.getHoldStatus} and P2 turn is ${player2.getTurnStatus}`);
 
   if (player.getID === 1) {
     toggleBtns(btnRollP1, btnHoldP1);
@@ -148,7 +150,6 @@ function holdPlayerTurns(player) {
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
   }
-
   switchTurns();
 }
 
@@ -157,6 +158,9 @@ function switchTurnsNoHold () {
   toggleOutline(player1);
   toggleBtns(btnRollP2, btnHoldP2);
   toggleOutline(player2);
+
+  player1.setTurnStatus = player1.getTurnStatus;
+  player2.setTurnStatus = player2.getTurnStatus;
 }
 
 function switchTurnsOnePlayerHold(player) {
@@ -186,9 +190,8 @@ function switchTurns() {
       switchTurnsOnePlayerHold(player1);
   }
 
-  else {
+  else
     switchTurnsNoHold();
-  }
 }
 
 function toggleBtns(rollBtn, holdBtn) {
@@ -211,6 +214,8 @@ const btnRollP1 = document.getElementById("btnRollP1");
 const btnRollP2 = document.getElementById("btnRollP2");
 const dieImgP1 = document.querySelector("#player1 > img");
 const dieImgP2 = document.querySelector("#player2 > img");
+const finalDisplayScore1 = document.getElementById("final1");
+const finalDisplayScore2 = document.getElementById("final2");
 const matchConcludeMenu = document.getElementById("matchConcludeMenu");
 const player1Score = document.getElementById("player1Score");
 const player2Score = document.getElementById("player2Score");
@@ -229,7 +234,6 @@ btnRollP1.addEventListener("click", () => {
 });
 
 btnHoldP1.addEventListener("click", () => {
-  // Last parameter ensures we don't call switchTurns twice in case when 21 is encountered
   holdPlayerTurns(player1);
 });
 
@@ -242,7 +246,7 @@ btnRollP2.setAttribute("disabled", "");
 btnHoldP2.addEventListener("click", () => {
   holdPlayerTurns(player2);
 });
-// !Start the cycle (for now). Add start of cycle in starter function
+
 btnHoldP2.setAttribute("disabled", "");
 player1View.classList.add("playerOutline");
 
@@ -282,7 +286,7 @@ function resolveDieRoll(player) {
         dieImgP1.alt = "A blank die for player 1"; 
     }
   }
-  else if (player.getID === 2) {
+  else {
     resolvePlayerRoll(player2, RAND_NUM);
 
     switch (RAND_NUM) {
@@ -315,30 +319,27 @@ function resolveDieRoll(player) {
         dieImgP2.alt = "A blank die for player 2"; 
     }
   }
-  else {
-    alert("Game has broken. Please fix the ride.");
-  }
-
   switchTurns();
 }
 
 function startRound(flag) {
   matchConcludeMenu.style.display = "none";
+  // Remove color for player in winner menu.
+  winner.removeAttribute("class");
   resetScores();
-
-  // Player 1 starts next round
+  player1.setHoldStatus = player1.getHoldStatus;
+  player2.setHoldStatus = player2.getHoldStatus;
+   // Player 1 starts next round
   if (flag) {
     player1.setTurnStatus = player1.getTurnStatus;
-    player1.getHoldStatus = player1.getHoldStatus;
-
+    
     toggleBtns(btnRollP1, btnHoldP1);
     toggleOutline(player1);
   }
   // Player 2 starts next round
   else {
     player2.setTurnStatus = player2.getTurnStatus;
-    player2.getHoldStatus = player2.getHoldStatus;
-
+  
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
   }
@@ -347,10 +348,6 @@ function startRound(flag) {
 function resetScores () {
   player1.setScore = -1 * player1.getScore;
   player2.setScore = -1 * player2.getScore;
-
-  // console.log(`Whose turn is it? ${playerStartFlag}`);
-  // console.log(`P1 Hold ${player1.getHoldStatus} and P1 turn is ${player1.getTurnStatus}`);
-  // console.log(`P2 Hold ${player2.getHoldStatus} and P2 turn is ${player2.getTurnStatus}`);
 
   player1Score.innerText = player1.getScore;
   player2Score.innerText = player2.getScore;

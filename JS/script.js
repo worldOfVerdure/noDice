@@ -109,7 +109,7 @@ function resolveMatch() {
     matchConcludeComponent(1);
   else
   matchConcludeComponent(2);
-
+  
   playerStartFlag = !playerStartFlag;
 }
 
@@ -122,6 +122,8 @@ function matchConcludeComponent(victor) {
     winningMessage.innerText = " is the victor!";
     winnerFlag.setAttribute("src", "images/flagP1.svg");
     winnerFlag.setAttribute("alt", "Player 1 flag.");
+    player1.setWins = true;
+    player1Wins.innerText = player1.getWins;
   }
   else if (victor === 2) {
     winner.innerText = "Player 2";
@@ -129,6 +131,8 @@ function matchConcludeComponent(victor) {
     winningMessage.innerText = " is the victor!";
     winnerFlag.setAttribute("src", "images/flagP2.svg");
     winnerFlag.setAttribute("alt", "Player 2 flag.");
+    player2.setWins = true;
+    player2Wins.innerText = player2.getWins;
   }
 
   else {
@@ -221,6 +225,8 @@ const player1Score = document.getElementById("player1Score");
 const player2Score = document.getElementById("player2Score");
 const player1View = document.getElementById("player1");
 const player2View = document.getElementById("player2");
+const player1Wins = document.getElementById("player1Wins");
+const player2Wins = document.getElementById("player2Wins");
 const winner = document.getElementById("winner");
 const winnerFlag = document.getElementById("winningFlag");
 const winningMessage = document.getElementById("winningMessage");
@@ -360,9 +366,3 @@ function resetDice() {
   dieImgP2.src = "images/emptyDie.svg";
   dieImgP2.alt = "A blank die for player 2"; 
 }
-
-/*
-!Why don't the buttons grey out on mobile?
-!Why is Hold not centered in its button?
-!Why is my flag not showing up?
-*/

@@ -20,8 +20,15 @@ body {
   position: relative;
 }
 
-#btnRollP1, #btnRollP2 {
+/* #btnRollP1, #btnRollP2 {
   margin-right: 1rem;
+} */
+
+.btns {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 button {

@@ -122,7 +122,9 @@ function matchConcludeComponent(victor) {
     winningMessage.innerText = " is the victor!";
     winnerFlag.setAttribute("src", "images/flagP1.svg");
     winnerFlag.setAttribute("alt", "Player 1 flag.");
+    console.log(`Victor 1: The player wins before are ${player1.getWins} and ${player2.getWins}`);
     player1.setWins = true;
+    console.log(`Victor 1: The player wins after are ${player1.getWins} and ${player2.getWins}`);
     player1Wins.innerText = player1.getWins;
   }
   else if (victor === 2) {
@@ -131,7 +133,9 @@ function matchConcludeComponent(victor) {
     winningMessage.innerText = " is the victor!";
     winnerFlag.setAttribute("src", "images/flagP2.svg");
     winnerFlag.setAttribute("alt", "Player 2 flag.");
+    console.log(`Victor 2: The player wins before are ${player1.getWins} and ${player2.getWins}`);
     player2.setWins = true;
+    console.log(`Victor 2: The player wins after are ${player1.getWins} and ${player2.getWins}`);
     player2Wins.innerText = player2.getWins;
   }
 

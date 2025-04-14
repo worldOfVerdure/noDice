@@ -158,7 +158,9 @@ function holdPlayerTurns(player) {
     toggleBtns(btnRollP2, btnHoldP2);
     toggleOutline(player2);
   }
-  switchTurns();
+  //There isn't a need to switch the players if one player exceeds 21
+  if (player.getScore < 21)
+    switchTurns();
 }
 
 function switchTurnsNoHold () {
@@ -329,7 +331,8 @@ function resolveDieRoll(player) {
         dieImgP2.alt = "A blank die for player 2"; 
     }
   }
-  switchTurns();
+  if (!(player1.getHoldStatus && player2.getHoldStatus))
+    switchTurns();
 }
 
 function startRound(flag) {

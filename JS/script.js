@@ -122,9 +122,7 @@ function matchConcludeComponent(victor) {
     winningMessage.innerText = " is the victor!";
     winnerFlag.setAttribute("src", "images/flagP1.svg");
     winnerFlag.setAttribute("alt", "Player 1 flag.");
-    console.log(`Victor 1: The player wins before are ${player1.getWins} and ${player2.getWins}`);
     player1.setWins = true;
-    console.log(`Victor 1: The player wins after are ${player1.getWins} and ${player2.getWins}`);
     player1Wins.innerText = player1.getWins;
   }
   else if (victor === 2) {
@@ -133,9 +131,7 @@ function matchConcludeComponent(victor) {
     winningMessage.innerText = " is the victor!";
     winnerFlag.setAttribute("src", "images/flagP2.svg");
     winnerFlag.setAttribute("alt", "Player 2 flag.");
-    console.log(`Victor 2: The player wins before are ${player1.getWins} and ${player2.getWins}`);
     player2.setWins = true;
-    console.log(`Victor 2: The player wins after are ${player1.getWins} and ${player2.getWins}`);
     player2Wins.innerText = player2.getWins;
   }
 
@@ -185,10 +181,7 @@ function switchTurnsOnePlayerHold(player) {
 }
 
 function switchTurns() {
-  if (player1.getHoldStatus && player2.getHoldStatus)
-    resolveMatch();
-
-  else if (player1.getHoldStatus) {
+  if (player1.getHoldStatus) {
     if (!player2.getTurnStatus)
       switchTurnsOnePlayerHold(player2);
   }
@@ -329,7 +322,8 @@ function resolveDieRoll(player) {
         dieImgP2.alt = "A blank die for player 2"; 
     }
   }
-  switchTurns();
+  if (!(player1.getHoldStatus && player2.getHoldStatus))
+    switchTurns();
 }
 
 function startRound(flag) {

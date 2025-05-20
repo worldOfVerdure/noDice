@@ -1,4 +1,6 @@
 let playerStartFlag = true;
+// If game over is encountered during a round, set this flag to true, back to false in a new round.
+let gameOverScreen = false;
 const MAX_DIE_VALUE = 6;
 const MAX_SCORE = 21;
 
@@ -50,8 +52,6 @@ class Player {
   set setWins(winStatus) {
     if(winStatus)
       this.wins += 1;
-    else
-      this.wins += 0;
   }
 }
 
@@ -67,15 +67,15 @@ function resolvePlayerRoll(player, randNum) {
     if (player.getScore === MAX_SCORE) {
       holdPlayerTurns(player);
   
-      if (player2.getHoldStatus)
-        resolveMatch();
+      // if (player2.getHoldStatus)
+      //   resolveMatch();
     }
 
     if (player.getScore > MAX_SCORE) {
       holdPlayerTurns(player);
       if (!player2.getHoldStatus)
         holdPlayerTurns(player2);
-      resolveMatch();
+      // resolveMatch();
     }
   }
 
@@ -85,15 +85,15 @@ function resolvePlayerRoll(player, randNum) {
     if (player.getScore === MAX_SCORE) {
       holdPlayerTurns(player);
 
-      if (player1.getHoldStatus)
-        resolveMatch();
+      // if (player1.getHoldStatus)
+      //   resolveMatch();
     }
 
     if (player.getScore > MAX_SCORE) {
       holdPlayerTurns(player);
       if (!player1.getHoldStatus)
         holdPlayerTurns(player1);
-      resolveMatch();
+      // resolveMatch();
     }
   }
 }
@@ -111,6 +111,7 @@ function resolveMatch() {
   matchConcludeComponent(2);
   
   playerStartFlag = !playerStartFlag;
+  gameOverScreen = !gameOverScreen;
 }
 
 function matchConcludeComponent(victor) {
@@ -181,6 +182,11 @@ function switchTurnsOnePlayerHold(player) {
 }
 
 function switchTurns() {
+  if (player1.getHoldStatus && player2.getHoldStatus) {
+    resolveMatch();
+    return;
+  }
+
   if (player1.getHoldStatus) {
     if (!player2.getTurnStatus)
       switchTurnsOnePlayerHold(player2);
@@ -322,7 +328,7 @@ function resolveDieRoll(player) {
         dieImgP2.alt = "A blank die for player 2"; 
     }
   }
-  if (!(player1.getHoldStatus && player2.getHoldStatus))
+  if (!gameOverScreen)
     switchTurns();
 }
 
@@ -334,6 +340,8 @@ function startRound(flag) {
   resetScores();
   player1.setHoldStatus = player1.getHoldStatus;
   player2.setHoldStatus = player2.getHoldStatus;
+  if (gameOverScreen)
+    gameOverScreen = !gameOverScreen;
    // Player 1 starts next round
   if (flag) {
     player1.setTurnStatus = player1.getTurnStatus;
